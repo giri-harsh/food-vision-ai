@@ -340,6 +340,107 @@
       color: var(--muted);
     }
 
+    /* ── Popup ── */
+    .popup-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .popup {
+      background: #111;
+      border: 1px solid #333;
+      max-width: 560px;
+      width: 100%;
+      padding: 2.5rem;
+      position: relative;
+      animation: slideUp 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .popup-tag {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .popup h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+      color: var(--text);
+    }
+
+    .popup-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 1.2rem 0;
+    }
+
+    .popup p {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 0.8rem;
+    }
+
+    .popup p:last-of-type { margin-bottom: 0; }
+
+    .popup-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.8rem;
+    }
+
+    .popup-btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s;
+    }
+
+    .popup-btn-primary:hover { background: #e04d10; }
+
+    .popup-btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.8rem 1.5rem;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .popup-btn-ghost:hover { color: var(--text); border-color: #555; }
+
     /* ── Responsive ── */
     @media (max-width: 768px) {
       header, .hero, .stats, .demo-section, .classes-section, footer {
@@ -356,6 +457,34 @@
   </style>
 </head>
 <body>
+
+  <!-- ── Popup ── -->
+  <div class="popup-backdrop" id="popupBackdrop">
+    <div class="popup">
+      <div class="popup-tag">⚡ Before you dive in</div>
+      <h2>This project is absolutely wild — in the best way.</h2>
+      <p>
+        The UI looks insane, but the way the model actually works is even more insane.
+        It uses <strong style="color:#f0ede8">MobileNetV3 transfer learning</strong> trained on Food-11
+        to classify your food photos into 11 categories in real time.
+      </p>
+      <div class="popup-divider"></div>
+      <p>
+        🤖 &nbsp;The UI/UX was generated using <strong style="color:#f0ede8">Claude (Anthropic)</strong>.
+      </p>
+      <p>
+        🧠 &nbsp;The AI/ML model — architecture, training, research, and deployment — was built entirely by <strong style="color:#f0ede8">Harsh Giri</strong>.
+      </p>
+      <div class="popup-actions">
+        <a class="popup-btn-primary" href="https://github.com/giri-harsh/food-vision-ai" target="_blank">
+          View on GitHub →
+        </a>
+        <button class="popup-btn-ghost" onclick="document.getElementById('popupBackdrop').style.display='none'">
+          Let me try it
+        </button>
+      </div>
+    </div>
+  </div>
 
   <div class="glow"></div>
 
@@ -411,9 +540,15 @@
         <div class="spinner"></div>
         <div class="loading-text">spinning up the model...</div>
       </div>
+
+      <!--
+        REPLACE the src below with your actual Hugging Face Space URL
+        Format: https://YOUR-USERNAME-YOUR-SPACE-NAME.hf.space
+        Example: https://harshgiri-food11-classifier.hf.space
+      -->
       <iframe
         id="demoFrame"
-        src="https://pseudo-harsh-food11-classifier.hf.space"
+        src="https://harshgiri-food11-classifier.hf.space"
         onload="document.getElementById('loadingOverlay').classList.add('hidden')"
         title="Food-11 Classifier Demo"
       ></iframe>
